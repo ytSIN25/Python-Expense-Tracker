@@ -74,7 +74,7 @@ def initialize():
                 print("CSV overwritten with blank data.")
                 sleep(1)
             else: 
-                df["date"] = pd.to_datetime(df["date"])
+                df["date"] = pd.to_datetime(df["date"]).dt.date
                 print("The original data will be used.")
                 sleep(1)
                 
@@ -149,8 +149,8 @@ def displayExpense():
             print(df.tail(5))
             print("*"*130)
         case "3":
-            # Make sure date column is datetime
-            df["date"] = pd.to_datetime(df["date"])
+            # Make sure date column is date
+            df["date"] = pd.to_datetime(df["date"]).dt.date
 
             Year = input("What is the year you would like to look for? ")
             validYear = df["date"].dt.year.unique().tolist()
@@ -252,7 +252,7 @@ def addExpense():
                 Day = input("Please enter a valid day in number: ")
         Day = int(Day)
 
-        return dt.datetime(Year, Month, Day)
+        return dt.date(Year, Month, Day)
 
     # Main Logic
     while True:
@@ -379,7 +379,7 @@ def editExpense():
             Day = int(Day)
 
             if confirm():
-                df.at[targetIndex, 'date'] = dt.datetime(Year, Month, Day)
+                df.at[targetIndex, 'date'] = dt.date(Year, Month, Day)
                 df.at[targetIndex, 'ID'] = genID(df.at[targetIndex, 'category'], df.at[targetIndex, 'date'].month, df.at[targetIndex, 'date'].day, df.at[targetIndex, 'amount'])
             else:
                 return
@@ -709,7 +709,7 @@ def help():
 #update csv to df ✅
 def loadCSV():
     df = pd.read_csv("user.csv")
-    df["date"] = pd.to_datetime(df["date"])
+    df["date"] = pd.to_datetime(df["date"], errors='coerce').dt.date
     return df
 
 #update df to csv ✅
@@ -752,7 +752,7 @@ def main():
                 input("Press enter to go back to the menu")
             case '7':
                 df = loadCSV()
-                df["date"] = pd.to_datetime(df["date"])
+                df["date"] = pd.to_datetime(df["date"]).dt.date
                 print("The CSV from last time has been imported!")
                 sleep(2)
             case '8':
