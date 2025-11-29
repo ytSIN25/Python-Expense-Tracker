@@ -466,7 +466,7 @@ def delExpense():
         updateCSV()
         print("Expense deleted successfully!")
 
-# Search for expense (name, amount range, category, date range)
+# Search for expense ✅
 def searchExpense():
     print("""
 What parameter would you like to search with?
