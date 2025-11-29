@@ -153,13 +153,13 @@ def displayExpense():
             df["date"] = pd.to_datetime(df["date"]).dt.date
 
             Year = input("What is the year you would like to look for? ")
-            validYear = df["date"].dt.year.unique().tolist()
+            validYear = df["date"].apply(lambda d: d.year).unique().tolist()
             while not Year.isdigit() or int(Year) not in validYear:
                 Year = input("The year is not valid, try again: ")
             Year = int(Year)
 
             Month = input("What is the month you would like to look for? ")
-            validMonth = df["date"].dt.month.unique().tolist()
+            validMonth = df["date"].apply(lambda d: d.month).unique().tolist()
             while not Month.isdigit() or int(Month) not in validMonth:
                 Month = input("The month is not valid, try again: ")
             Month = int(Month)
@@ -216,7 +216,7 @@ def addExpense():
             case "3":
                 category = "Utilities"
             case "4":
-                category = "Entertaiment / Shopping"
+                category = "Entertainment / Shopping"
             case "5":
                 category = "Social Life"
             case "r" | "R":
@@ -301,7 +301,7 @@ def genID(category, month, day, amount):
             head  = 2
         case "Utilities":
             head  = 3
-        case "Entertaiment / Shopping":
+        case "Entertainment / Shopping":
             head  = 4
         case "Social Life":
             head  = 5
@@ -420,7 +420,7 @@ def editExpense():
                 case "3":
                     category = "Utilities"
                 case "4":
-                    category = "Entertaiment / Shopping"
+                    category = "Entertainment / Shopping"
                 case "5":
                     category = "Social Life"
                 case "q" | "Q":
@@ -546,7 +546,7 @@ What parameter would you like to search with?
                 case "3": 
                     category = "Utilities"
                 case "4":
-                    category = "Entertaiment / Shopping"
+                    category = "Entertainment / Shopping"
                 case "5":
                     category = "Social Life"
 
@@ -703,8 +703,67 @@ What file format do you want to export your data to?
 
 #help
 def help():
-    print("Welcome to help ")
-    print("Which function do you want to query?")
+    while True:
+        print("Welcome to help ")
+        print("Which function do you want to query?")
+        print("1. View expenses")
+        print("2. Add new expense")
+        print("3. Edit past expense")
+        print("4. Delete expense")
+        print("5. Search for expense")
+        print("6. View summary")
+        print("7. Load CSV data")
+        print("8. Clear CSV data")
+        print("9. Export data")
+        print("Exit (q to exit)")
+
+        userInput = input("Choose the function or quit:  ")
+        while userInput not in ["1","2","3","4","5","6","7","8","9","q","Q"]:
+                userInput = input("The function is not available, choose again:  ")
+        if userInput == "q" or userInput == "Q":
+            break
+        
+        print("*"*130)
+        match userInput:
+            case '1':
+                print("""
+The View Expense function is to view data in the dataframe.
+Uses
+
+
+""")
+            case '2':
+                addExpense()
+                input("Press enter to go back to the menu")
+            case '3':
+                editExpense()
+                input("Press enter to go back to the menu")
+            case '4':
+                delExpense()
+                input("Press enter to go back to the menu")
+            case '5':
+                searchExpense()
+                input("Press enter to go back to the menu")
+            case '6':
+                viewSummary()
+                input("Press enter to go back to the menu")
+            case '7':
+                df = loadCSV()
+                df["date"] = pd.to_datetime(df["date"]).dt.date
+                print("The CSV from last time has been imported!")
+                sleep(2)
+            case '8':
+                df = pd.DataFrame({"ID":[],
+                "name": [],
+                "amount": [],
+                "category": [],
+                "date": [],
+                "notes": []})
+                updateCSV()
+                input("Press enter to go back to the menu")
+            case '9':
+                export()
+                input("Press enter to go back to the menu")
 
 #update csv to df ✅
 def loadCSV():
