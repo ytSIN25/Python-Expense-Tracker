@@ -252,7 +252,7 @@ def addExpense():
                 Day = input("Please enter a valid day in number: ")
         Day = int(Day)
 
-        return dt.date(Year, Month, Day)
+        return dt.datetime(Year, Month, Day)
 
     # Main Logic
     while True:
@@ -379,7 +379,7 @@ def editExpense():
             Day = int(Day)
 
             if confirm():
-                df.at[targetIndex, 'date'] = pd.to_datetime(dt.date(Year, Month, Day))
+                df.at[targetIndex, 'date'] = dt.datetime(Year, Month, Day)
                 df.at[targetIndex, 'ID'] = genID(df.at[targetIndex, 'category'], df.at[targetIndex, 'date'].month, df.at[targetIndex, 'date'].day, df.at[targetIndex, 'amount'])
             else:
                 return
@@ -481,6 +481,7 @@ What parameter would you like to search with?
             userInput = input("The function is not available, choose again:  ")
     if userInput == "q" or userInput == "q":
         return
+    
     match userInput:
         # Keyword search name
         case '1':
@@ -523,12 +524,100 @@ What parameter would you like to search with?
 
         # Category
         case '3':
-            editExpense()
-            input("Press enter to go back to the menu") 
+            print("""Choose the category of the expense:
+    1. Food and Drinks
+    2. Commute
+    3. Utilities
+    4. Entertainment / Shopping
+    5. Social Life
+    (q to quit)
+        """)
+            validCategory = ["1","2","3","4","5","q","Q"]
+            category = input("> ")
+            while category not in validCategory:
+                category = input("The category is not valid. Try Again: ")
+            if category == "q" or category == "Q":
+                return
+            match category:
+                case "1":
+                    category = "Food and Drinks"
+                case "2":
+                    category = "Commute"
+                case "3": 
+                    category = "Utilities"
+                case "4":
+                    category = "Entertaiment / Shopping"
+                case "5":
+                    category = "Social Life"
+
+            search = df[df["category"] == category]
+            
+            if search.empty:
+                print("There is no expense in this category")
+            else:
+                search = search.sort_values(by="date")
+                sleep(1)
+                print("*"*130)
+                print("This is the search results:  ")
+                print(search) 
+                print("*"*130)
+        
         # Date range
         case '4':
-            delExpense()
-            input("Press enter to go back to the menu")
+            while True:
+                startDate = input("Please enter the start date as YYYY-MM-DD (q to quit): ")
+                if startDate.lower() == "q":
+                    break
+                
+                if not re.match(r"^\d{4}-\d{2}-\d{2}$", startDate):
+                    print("Invalid format. Use YYYY-MM-DD.")
+                    continue
+                
+                try:
+                    year, month, day = map(int, startDate.split("-"))
+                    dt.date(year, month, day)
+                    break
+                except ValueError:
+                    print("Invalid date. Try again in YYYY-MM-DD")
+            year, month, day = map(int, startDate.split("-"))
+            startDate = dt.date(year, month, day)
+            
+
+            while True:
+                endDate = input("Please enter the end date as YYYY-MM-DD (q to quit): ")
+                if endDate.lower() == "q":
+                    break
+                
+                if not re.match(r"^\d{4}-\d{2}-\d{2}$", endDate):
+                    print("Invalid format. Use YYYY-MM-DD.")
+                    continue
+                
+                try:
+                    year, month, day = map(int, endDate.split("-"))
+                    dt.date(year, month, day)
+                    break
+                except ValueError:
+                    print("Invalid date. Try again in YYYY-MM-DD")
+            year, month, day = map(int, endDate.split("-"))
+            endDate = dt.date(year, month, day)
+
+            if startDate > endDate:
+                startDate, endDate = endDate, startDate
+            
+            if startDate == endDate:    
+                search = df[df["date"] == startDate]
+            else: 
+                search = df[(df["date"] >= startDate) & (df["date"] <= endDate)]
+            if search.empty:
+                print("*"*130)
+                print("There is no data for the amount range.")
+                print("*"*130)
+            else:
+                search = search.sort_values(by="category")
+                print("*"*130)
+                print("This is the search results:  ")
+                print(search)
+                print("*"*130)
     
 # View summary
 def viewSummary():
@@ -619,7 +708,9 @@ def help():
 
 #update csv to df ✅
 def loadCSV():
-    return pd.read_csv("user.csv")
+    df = pd.read_csv("user.csv")
+    df["date"] = pd.to_datetime(df["date"])
+    return df
 
 #update df to csv ✅
 def updateCSV():
