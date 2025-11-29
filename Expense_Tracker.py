@@ -3,7 +3,7 @@ import random as rnd #Generate ID for expense
 import datetime as dt #Save expense date
 import re #Validate user input format
 import math #For certain calculation purpose
-import os #Check is "user.csv" exist
+import os #Check is "ExpenseTrackerRecord.csv" exist
 import subprocess #Install package purpose
 import sys #Check for module
 from time import sleep #To stop program at some point for user to read prompted text
@@ -26,11 +26,11 @@ def importInstall(package_name, import_name=None):
         return __import__(import_name)
 
 # Non-default packages ✅
-pd = importInstall("pandas")
-plt = importInstall("matplotlib")
-import matplotlib.pyplot as plt
-docx = importInstall("python-docx", "docx")
-openpyxl = importInstall("openpyxl")
+# pd = importInstall("pandas")
+# plt = importInstall("matplotlib")
+# import matplotlib.pyplot as plt
+# docx = importInstall("python-docx", "docx")
+# openpyxl = importInstall("openpyxl")
 
 # Sets up dataframe template ✅
 def createNewDF():
@@ -46,14 +46,14 @@ def createNewDF():
 # Deal with CSV presaved data ✅
 def initialize():
     global df
-    if not os.path.exists("user.csv"):
-        print("user.csv does not exist.")
-        print('Creating "user.csv" at current directory...')
+    if not os.path.exists("ExpenseTrackerRecord.csv"):
+        print("ExpenseTrackerRecord.csv does not exist.")
+        print('Creating "ExpenseTrackerRecord.csv" at current directory...')
         sleep(2)
-        with open("user.csv", "x") as file:
+        with open("ExpenseTrackerRecord.csv", "x") as file:
             pass
     try:
-        df = pd.read_csv("user.csv")
+        df = pd.read_csv("ExpenseTrackerRecord.csv")
 
         # if frame is setted up but data is empty
         if df.empty:
@@ -91,7 +91,8 @@ def displayMenu():
     print()
     print("*"*143)
     #graffi text "Expense tracker"
-    print("""
+    print(r"""
+          
 $$$$$$$$\                                                                   $$$$$$$$\                           $$\                           
 $$  _____|                                                                  \__$$  __|                          $$ |                          
 $$ |      $$\   $$\  $$$$$$\   $$$$$$\  $$$$$$$\   $$$$$$$\  $$$$$$\           $$ | $$$$$$\  $$$$$$\   $$$$$$$\ $$ |  $$\  $$$$$$\   $$$$$$\  
@@ -767,7 +768,7 @@ Uses
 
 #update csv to df ✅
 def loadCSV():
-    df = pd.read_csv("user.csv")
+    df = pd.read_csv("ExpenseTrackerRecord.csv")
     df["date"] = pd.to_datetime(df["date"], errors='coerce').dt.date
     return df
 
@@ -775,12 +776,12 @@ def loadCSV():
 def updateCSV():
     df.sort_values(by="date", inplace = True)
     df.reset_index(drop = True, inplace = True)
-    df.to_csv("user.csv",index=False)
+    df.to_csv("ExpenseTrackerRecord.csv",index=False)
 
 def main():
     global df
     isRunning = True
-    #Initialize in case "user.csv" not exist
+    #Initialize in case "ExpenseTrackerRecord.csv" not exist
     initialize()
 
     #Main part
