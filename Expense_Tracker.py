@@ -13,19 +13,19 @@ scriptDirectory = os.path.dirname(os.path.abspath(__file__))
 os.chdir(scriptDirectory)
 
 #REMEMBER TO DELETE AFTER FINISH
-# import pandas as pd
-# import matplotlib.pyplot as plt
-# import docx
+import pandas as pd
+import matplotlib.pyplot as plt
+import docx
 
 #Import when exist, install when not ✅
-def importInstall(package_name, import_name=None):
-    import_name = import_name or package_name
+def importInstall(packageName, importName=None):
+    importName = importName or packageName
     try:
-        return __import__(import_name)
+        return __import__(importName)
     except ImportError:
-        print(f"{package_name} not found. Installing...")
-        subprocess.check_call([sys.executable, "-m", "pip", "install", package_name])
-        return __import__(import_name)
+        print(f"{packageName} not found. Installing...")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", packageName])
+        return __import__(importName)
 
 # Non-default packages ✅
 pd = importInstall("pandas")
@@ -624,7 +624,107 @@ What parameter would you like to search with?
     
 # View summary
 def viewSummary():
-    pass
+    while True:
+        print("""
+    Select the summary you would like to see:
+    1. Daily
+    2. Monthly
+    3. Yearly
+    4. Category
+    (q to quit)
+    """)
+        selectSummary = input("> ")
+        while selectSummary not in ["1","2","3","4","q","Q"]:
+            selectSummary = input("The selection is invalid. Try Again: ")
+        if selectSummary == "q" or selectSummary == "Q":
+            break
+        match selectSummary:
+            # Day
+            case "1":
+                while True:
+                    searchDate = input("Please enter the date as YYYY-MM-DD (q to quit): ")
+                    if searchDate.lower() == "q":
+                        break
+                    
+                    if not re.match(r"^\d{4}-\d{2}-\d{2}$", searchDate):
+                        print("Invalid format. Use YYYY-MM-DD.")
+                        continue
+                    
+                    try:
+                        year, month, day = map(int, searchDate.split("-"))
+                        dt.date(year, month, day)
+                        break
+                    except ValueError:
+                        print("Invalid date. Try again in YYYY-MM-DD")
+                year, month, day = map(int, searchDate.split("-"))
+                searchDate = dt.date(year, month, day)
+
+                result = df[df["date"] == searchDate]
+                if result.empty:
+                    print("There is no data on that day.")
+                else:
+                    total = sum(result["amount"].tolist())
+                    print(f"The total expense on {searchDate} is RM{total}.")
+
+            # Month
+            case "2":
+                Year = input("Enter the year of the expense : ")
+                while not re.match(r"^\d{4}$", Year):
+                    Year = input("Enter only 4 digit number: ")
+                Year = int(Year)
+
+                Month = input("Enter the month of the expense in number: ")
+                while not (re.match(r"^\d{1,2}$", Month) and 1 <= int(Month) <= 12):
+                    Month = input("Please enter a valid month in number: ")
+                Month = int(Month)
+
+                result = df[(df["date"].dt.year == Year) & (df["date"].dt.month == Month)]
+                if result.empty:
+                    print("There is no data in the month.")
+                else:
+                    total = sum(result["amount"].tolist())
+                    if Month in [1,3,5,7,8,10,12]:
+                        mean = total/31
+                    elif Month in [4,6,9,11]:
+                        mean = total/30
+                    elif Month == 2 and Year % 4 == 0:
+                        mean = total/29
+                    elif Month == 2 and Year % 4 > 0:
+                        mean = total/28
+                    result = result.sort_values("amount")
+                    highestDay = result.iloc[-1]
+                    lowestDay = result.iloc[0]
+                    print(f"The total expense on {Month}/{Year} is RM{total}.")
+                    print(f"The average daily expense of this month is RM{mean}.")
+                    print(f"The highest expense in the month is {highestDay['name']} on {highestDay['date']} with an amount of RM{highestDay['amount']}.")
+                    print(f"The highest expense in the month is {lowestDay['name']} on {lowestDay['date']} with an amount of RM{lowestDay['amount']}.")
+                    
+            # Year
+            case "3":
+                Year = input("Enter the year of the expense : ")
+                while not re.match(r"^\d{4}$", Year):
+                    Year = input("Enter only 4 digit number: ")
+                Year = int(Year)
+                result = df[df["date"].dt.year == Year]
+                if result.empty:
+                    print("There is no data for the year.")
+                else: 
+                    total = sum(result["amount"].tolist())
+                    if Year % 4 == 0:
+                        mean = total / 366
+                    elif Year % 4 > 0:
+                        mean = total / 365
+                    monthlyExpense = result.groupby(result["date"].dt.month)["amount"].sum().to_dict()
+                    maxMonth = max(monthlyExpense, key=monthlyExpense.get)
+                    maxAmount = monthlyExpense[maxMonth]
+                    minMonth = min(monthlyExpense, key=monthlyExpense.get)
+                    minAmount = monthlyExpense[minMonth]
+                    print("*"*130)
+                    print("")
+                    
+            # Category
+            case "4":
+                pass
 
 # Export data ✅
 def export():
