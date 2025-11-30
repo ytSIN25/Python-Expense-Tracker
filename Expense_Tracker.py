@@ -3,16 +3,19 @@ import random as rnd #Generate ID for expense
 import datetime as dt #Save expense date
 import re #Validate user input format
 import math #For certain calculation purpose
-import os #Check is "ExpenseTrackerRecord.csv" exist
+import os #Check is "ExpenseTrackerRecord.csv" exist and to force directory
 import subprocess #Install package purpose
 import sys #Check for module
 from time import sleep #To stop program at some point for user to read prompted text
 
+# Force running directory to be this program
+scriptDirectory = os.path.dirname(os.path.abspath(__file__))
+os.chdir(scriptDirectory)
 
 #REMEMBER TO DELETE AFTER FINISH
-import pandas as pd
-import matplotlib.pyplot as plt
-import docx
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import docx
 
 #Import when exist, install when not ✅
 def importInstall(package_name, import_name=None):
