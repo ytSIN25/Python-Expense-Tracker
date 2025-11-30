@@ -13,7 +13,6 @@ from time import sleep #To stop program at some point for user to read prompted 
 import pandas as pd
 import matplotlib.pyplot as plt
 import docx
-import openpyxl
 
 #Import when exist, install when not ✅
 def importInstall(package_name, import_name=None):
@@ -26,11 +25,11 @@ def importInstall(package_name, import_name=None):
         return __import__(import_name)
 
 # Non-default packages ✅
-# pd = importInstall("pandas")
-# plt = importInstall("matplotlib")
-# import matplotlib.pyplot as plt
-# docx = importInstall("python-docx", "docx")
-# openpyxl = importInstall("openpyxl")
+pd = importInstall("pandas")
+plt = importInstall("matplotlib")
+import matplotlib.pyplot as plt
+docx = importInstall("python-docx", "docx")
+openpyxl = importInstall("openpyxl")
 
 # Sets up dataframe template ✅
 def createNewDF():
@@ -702,9 +701,11 @@ What file format do you want to export your data to?
         case "6":
             create(name, "txt")
 
-#help
+#help ✅
 def help():
     while True:
+        print()
+        print("*"*130)
         print("Welcome to help ")
         print("Which function do you want to query?")
         print("1. View expenses")
@@ -728,43 +729,58 @@ def help():
         match userInput:
             case '1':
                 print("""
-The View Expense function is to view data in the dataframe.
-Uses
-
-
+View Expense function is to view datas.
+1. All Past Expense: Displays all the expenses in data
+2. Latest 5 Expense: Displays the most latest inputted 5 data
+3. All Expenses by Month: Displays all expense in the month chosen
 """)
             case '2':
-                addExpense()
-                input("Press enter to go back to the menu")
+                print("""
+Add Expense function is to create new expense record into the data.
+Fill in Name, amount, category and date. 
+An ID for the expense will be generated automatically.
+ID is used to locate the expense in other part of this program.
+""")
             case '3':
-                editExpense()
-                input("Press enter to go back to the menu")
+                print("""
+Edit Expense function is to edit data recorded (as the name suggests).
+ID for the expense is needed so remember to view and copy it.
+You can edit the name, amount, date and category.
+If the amount, date or category is changed, the ID will also be updated.
+""")
             case '4':
-                delExpense()
-                input("Press enter to go back to the menu")
+                print("""
+Delete Expense function is to delete data recorded (ofc).
+Same as edit, an ID is needed.
+Before deleting, a comfirmation question will be asked.
+""")
             case '5':
-                searchExpense()
-                input("Press enter to go back to the menu")
+                print("""
+Search Expense function is to search for specific data.
+1. Name: Type any keyword to find all expenses with name including the keyword.
+2. Amount Range: Type a range of amount. If the min and max is the same, the specific expense will be shown.
+3. Category: Displays all the expenses in the category
+4. Date Range: A range of date are use to filter data. If start and end date is the same all expense on that day will be shown.
+""")
             case '6':
-                viewSummary()
-                input("Press enter to go back to the menu")
+                print("""
+View Summary function is to view statistics on your data.
+1. Analysis in Range: Displays analysis in a day, a month or a year.
+(total, mean, distributions)
+2. Analysis by Category: Displays which category is highest and lowest, optional to show a pie chart.
+""")
             case '7':
-                df = loadCSV()
-                df["date"] = pd.to_datetime(df["date"]).dt.date
-                print("The CSV from last time has been imported!")
-                sleep(2)
+                print("""
+Loads the "ExpenseTrackerRecord.csv" manually.
+Make sure such file is the same directory with this program.
+(Loading data into the program is usually automated when you start the program. Use this function when you have manually edited the CSV.)
+""")
             case '8':
-                df = pd.DataFrame({"ID":[],
-                "name": [],
-                "amount": [],
-                "category": [],
-                "date": [],
-                "notes": []})
-                updateCSV()
-                input("Press enter to go back to the menu")
+                print("Clears everything in the 'ExpenseRecordTracker.csv' leaving a blank template. ")
             case '9':
-                export()
-                input("Press enter to go back to the menu")
+                print("Exports the data to be Excel, Word, PDF, CSV, TXT or even HTML")
+        print("*"*130)
+        sleep(5)
 
 #update csv to df ✅
 def loadCSV():
