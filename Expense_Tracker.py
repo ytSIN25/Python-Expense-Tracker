@@ -91,7 +91,7 @@ def initialize():
 def displayMenu():
     """Displays the starting menu with title"""
     print()
-    print("*"*143)
+    print("*"*120)
     #graffi text "Expense tracker"
     print(r"""
 
@@ -125,7 +125,7 @@ def displayMenu():
 """)
     author = "by Yee Tng-37289632"
     print(f"{author:>142}")
-    print("*"*143)
+    print("*"*120)
     print("Welcome to the Expense Tracker Program")
     print("What do you like to do today?")
     print("1. View expenses")
@@ -158,15 +158,15 @@ def displayExpense():
         case "1":
             df.sort_values(by="date", inplace=True) 
             df.reset_index(drop=True, inplace=True)
-            print("*"*130)
+            print("*"*120)
             print(df)
-            print("*"*130)
+            print("*"*120)
         case "2":
             df.sort_values(by="date", inplace=True) 
             df.reset_index(drop=True, inplace=True)
-            print("*"*130)
+            print("*"*120)
             print(df.tail(5))
-            print("*"*130)
+            print("*"*120)
         case "3":
             # Make sure date column is date
             df["date"] = pd.to_datetime(df["date"]).dt.date
@@ -184,9 +184,9 @@ def displayExpense():
             Month = int(Month)
 
             filtered = df[(df["date"].dt.year == Year) & (df["date"].dt.month == Month)]
-            print("*"*130)
+            print("*"*120)
             print(filtered)
-            print("*"*130)
+            print("*"*120)
             
 
         case "q" | "Q":
@@ -334,7 +334,7 @@ def editExpense():
     if target == "q":
         return
     targetIndex = df.index[df["ID"].astype(str) == target][0]
-    print("*"*130)
+    print("*"*120)
     print(f"The expense you would like to edit is: {df.at[targetIndex, 'name']} on {df.at[targetIndex, 'date']} with the amount {df.at[targetIndex, 'amount']} for {df.at[targetIndex, 'category']}. (Notes: {df.at[targetIndex, 'notes']})")
     print("""
     What is the data you would like to edit on this expense
@@ -509,10 +509,10 @@ What parameter would you like to search with?
             while search.empty:
                 target = input("The name is not available. Try Again:  ")
                 search = df[df["name"].str.lower().str.contains(target)]
-            print("*"*130)
+            print("*"*120)
             print("This is the search results:  ")
             print(search)
-            print("*"*130)
+            print("*"*120)
 
         # Amount Range
         case '2':
@@ -531,15 +531,15 @@ What parameter would you like to search with?
             else: 
                 search = df[(df["amount"] >= min) & (df["amount"] <= max)]
             if search.empty:
-                print("*"*130)
+                print("*"*120)
                 print("There is no data for the amount range.")
-                print("*"*130)
+                print("*"*120)
             else:
                 search = search.sort_values(by="amount")
-                print("*"*130)
+                print("*"*120)
                 print("This is the search results:  ")
                 print(search) 
-                print("*"*130)
+                print("*"*120)
 
         # Category
         case '3':
@@ -576,10 +576,10 @@ What parameter would you like to search with?
             else:
                 search = search.sort_values(by="date")
                 sleep(1)
-                print("*"*130)
+                print("*"*120)
                 print("This is the search results:  ")
                 print(search) 
-                print("*"*130)
+                print("*"*120)
         
         # Date range
         case '4':
@@ -628,15 +628,15 @@ What parameter would you like to search with?
             else: 
                 search = df[(df["date"] >= startDate) & (df["date"] <= endDate)]
             if search.empty:
-                print("*"*130)
+                print("*"*120)
                 print("There is no data for the amount range.")
-                print("*"*130)
+                print("*"*120)
             else:
                 search = search.sort_values(by="category")
-                print("*"*130)
+                print("*"*120)
                 print("This is the search results:  ")
                 print(search)
-                print("*"*130)
+                print("*"*120)
     
 # View summary
 def viewSummary():
@@ -735,7 +735,7 @@ def viewSummary():
                     maxAmount = monthlyExpense[maxMonth]
                     minMonth = min(monthlyExpense, key=monthlyExpense.get)
                     minAmount = monthlyExpense[minMonth]
-                    print("*"*130)
+                    print("*"*120)
                     # fig, ax = plt.subplots(figsize=(3.5, 3))
 
                     # # `bar_labels` is a list of strings. `bar_values` is a list of numbers with the same length as `bar_labels`.
@@ -836,7 +836,7 @@ What file format do you want to export your data to?
 def help():
     while True:
         print()
-        print("*"*130)
+        print("*"*120)
         print("Welcome to help ")
         print("Which function do you want to query?")
         print("1. View expenses")
@@ -856,7 +856,7 @@ def help():
         if userInput == "q" or userInput == "Q":
             break
         
-        print("*"*130)
+        print("*"*120)
         match userInput:
             case '1':
                 print("""
@@ -910,7 +910,7 @@ Make sure such file is the same directory with this program.
                 print("Clears everything in the 'ExpenseRecordTracker.csv' leaving a blank template. ")
             case '9':
                 print("Exports the data to be Excel, Word, PDF, CSV, TXT or even HTML")
-        print("*"*130)
+        print("*"*120)
         sleep(5)
 
 #update csv to df ✅
