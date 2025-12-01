@@ -720,19 +720,17 @@ def viewSummary():
                     minMonth = min(monthlyExpense, key=monthlyExpense.get)
                     minAmount = monthlyExpense[minMonth]
                     print("*"*130)
-                    fig, ax = plt.subplots(figsize=(3.5, 3))
+                    # fig, ax = plt.subplots(figsize=(3.5, 3))
 
-                    # `bar_labels` is a list of strings. `bar_values` is a list of numbers with the same length as `bar_labels`.
-                    bars = ax.bar(bar_labels, bar_values, color='salmon')
+                    # # `bar_labels` is a list of strings. `bar_values` is a list of numbers with the same length as `bar_labels`.
+                    # bars = ax.bar(monthlyExpense.keys, monthlyExpense.get, color='salmon')
+                    # ax.bar_label(bars, padding=3)
 
-                    # Add numerical labels to bars.
-                    ax.bar_label(bars, padding=3)
+                    # # Set axis labels, display in bold
+                    # ax.set_xlabel("X (unit)", fontweight="bold")
+                    # ax.set_ylabel("Y (unit)", fontweight="bold")
 
-                    # Set axis labels, display in bold
-                    ax.set_xlabel("X (unit)", fontweight="bold")
-                    ax.set_ylabel("Y (unit)", fontweight="bold")
-
-                    plt.show()
+                    # plt.show()
 
                     print("")
                     
