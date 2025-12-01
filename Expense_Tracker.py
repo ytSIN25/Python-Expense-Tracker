@@ -76,7 +76,7 @@ def initialize():
                 print("CSV overwritten with blank data.")
                 sleep(1)
             else: 
-                df["date"] = pd.to_datetime(df["date"]).dt.date
+                df["date"] = pd.to_datetime(df["date"]).dt.normalize()
                 print("The original data will be used.")
                 sleep(1)
                 
@@ -124,7 +124,7 @@ def displayMenu():
 
 """)
     author = "by Yee Tng-37289632"
-    print(f"{author:>142}")
+    print(f"{author:>120}")
     print("*"*120)
     print("Welcome to the Expense Tracker Program")
     print("What do you like to do today?")
@@ -169,7 +169,7 @@ def displayExpense():
             print("*"*120)
         case "3":
             # Make sure date column is date
-            df["date"] = pd.to_datetime(df["date"]).dt.date
+            df["date"] = pd.to_datetime(df["date"]).dt.normalize()
 
             Year = input("What is the year you would like to look for? ")
             validYear = df["date"].apply(lambda d: d.year).unique().tolist()
@@ -271,7 +271,7 @@ def addExpense():
                 Day = input("Please enter a valid day in number: ")
         Day = int(Day)
 
-        return dt.date(Year, Month, Day)
+        return pd.to_datetime(f"{Year}-{Month}-{Day}").normalize()
 
     # Main Logic
     while True:
@@ -398,7 +398,7 @@ def editExpense():
             Day = int(Day)
 
             if confirm():
-                df.at[targetIndex, 'date'] = dt.date(Year, Month, Day)
+                df.at[targetIndex, 'date'] = pd.to_datetime(f"{Year}-{Month}-{Day}").normalize()
                 df.at[targetIndex, 'ID'] = genID(df.at[targetIndex, 'category'], df.at[targetIndex, 'date'].month, df.at[targetIndex, 'date'].day, df.at[targetIndex, 'amount'])
             else:
                 return
@@ -599,7 +599,7 @@ What parameter would you like to search with?
                 except ValueError:
                     print("Invalid date. Try again in YYYY-MM-DD")
             year, month, day = map(int, startDate.split("-"))
-            startDate = dt.date(year, month, day)
+            startDate = pd.to_datetime(f"{year}-{month}-{day}").normalize()
             
 
             while True:
@@ -618,7 +618,7 @@ What parameter would you like to search with?
                 except ValueError:
                     print("Invalid date. Try again in YYYY-MM-DD")
             year, month, day = map(int, endDate.split("-"))
-            endDate = dt.date(year, month, day)
+            endDate = pd.to_datetime(f"{year}-{month}-{day}").normalize()
 
             if startDate > endDate:
                 startDate, endDate = endDate, startDate
@@ -673,7 +673,7 @@ def viewSummary():
                     except ValueError:
                         print("Invalid date. Try again in YYYY-MM-DD")
                 year, month, day = map(int, searchDate.split("-"))
-                searchDate = dt.date(year, month, day)
+                searchDate = pd.to_datetime(f"{year}-{month}-{day}").normalize()
 
                 result = df[df["date"] == searchDate]
                 if result.empty:
@@ -713,7 +713,7 @@ def viewSummary():
                     print(f"The total expense on {Month}/{Year} is RM{total}.")
                     print(f"The average daily expense of this month is RM{mean}.")
                     print(f"The highest expense in the month is {highestDay['name']} on {highestDay['date']} with an amount of RM{highestDay['amount']}.")
-                    print(f"The highest expense in the month is {lowestDay['name']} on {lowestDay['date']} with an amount of RM{lowestDay['amount']}.")
+                    print(f"The lowest expense in the month is {lowestDay['name']} on {lowestDay['date']} with an amount of RM{lowestDay['amount']}.")
                     
             # Year
             case "3":
@@ -916,7 +916,7 @@ Make sure such file is the same directory with this program.
 #update csv to df ✅
 def loadCSV():
     df = pd.read_csv("ExpenseTrackerRecord.csv")
-    df["date"] = pd.to_datetime(df["date"], errors='coerce').dt.date
+    df["date"] = pd.to_datetime(df["date"], errors='coerce').dt.normalize()
     return df
 
 #update df to csv ✅
@@ -959,7 +959,7 @@ def main():
                 input("Press enter to go back to the menu")
             case '7':
                 df = loadCSV()
-                df["date"] = pd.to_datetime(df["date"]).dt.date
+                df["date"] = pd.to_datetime(df["date"]).dt.normalize()
                 print("The CSV from last time has been imported!")
                 sleep(2)
             case '8':
