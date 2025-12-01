@@ -939,18 +939,26 @@ def main():
                 userInput = input("The function is not available, choose again:  ")
 
         match userInput:
+            # Display Expense
             case '1':
                 displayExpense()
                 input("Press enter to go back to the menu")
+
+            # Add new Expense
             case '2':
                 addExpense()
                 input("Press enter to go back to the menu")
+
+            # Edit Expense
             case '3':
                 editExpense()
                 input("Press enter to go back to the menu")
+
+            # Delete Expense
             case '4':
                 delExpense()
                 input("Press enter to go back to the menu")
+
             case '5':
                 searchExpense()
                 input("Press enter to go back to the menu")
@@ -963,13 +971,17 @@ def main():
                 print("The CSV from last time has been imported!")
                 sleep(2)
             case '8':
-                df = pd.DataFrame({"ID":[],
-                   "name": [],
-                   "amount": [],
-                   "category": [],
-                   "date": [],
-                   "notes": []})
-                updateCSV()
+                confirm = input("Are you sure? (Y / n)  ")
+                while confirm not in ["Y","n"]:
+                    confirm = input("Please enter Y(yes) or n(no):  ")
+                if confirm == "Y":
+                    df = pd.DataFrame({"ID":[],
+                                       "name": [],
+                                       "amount": [],
+                                       "category": [],
+                                       "date": [],
+                                       "notes": []})
+                    updateCSV()
                 input("Press enter to go back to the menu")
             case '9':
                 export()
