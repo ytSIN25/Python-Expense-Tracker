@@ -681,7 +681,7 @@ def viewSummary():
                     print("There is no data on that day.")
                 else:
                     total = sum(result["amount"].tolist())
-                    print(f"The total expense on {searchDate} is RM{total}.")
+                    print(f"The total expense on {searchDate} is RM{total:.2f}.")
 
             # Month
             case "2":
@@ -711,10 +711,10 @@ def viewSummary():
                     result = result.sort_values("amount")
                     highestDay = result.iloc[-1]
                     lowestDay = result.iloc[0]
-                    print(f"The total expense on {Month}/{Year} is RM{total}.")
-                    print(f"The average daily expense of this month is RM{mean}.")
-                    print(f"The highest expense in the month is {highestDay['name']} on {highestDay['date']} with an amount of RM{highestDay['amount']}.")
-                    print(f"The lowest expense in the month is {lowestDay['name']} on {lowestDay['date']} with an amount of RM{lowestDay['amount']}.")
+                    print(f"The total expense on {Month}/{Year} is RM{total:.2f}.")
+                    print(f"The average daily expense of this month is RM{mean:.2f}.")
+                    print(f"The highest expense in the month is {highestDay['name']} on {highestDay['date']} with an amount of RM{highestDay['amount']:.2f}.")
+                    print(f"The lowest expense in the month is {lowestDay['name']} on {lowestDay['date']} with an amount of RM{lowestDay['amount']:.2f}.")
                     
             # Year
             case "3":
@@ -737,9 +737,9 @@ def viewSummary():
                     minMonth = min(monthlyExpense, key=monthlyExpense.get)
                     minAmount = monthlyExpense[minMonth]
                     print("*"*120)
-                    print(f"The total expense for year {Year} is RM{total}.")
-                    print(f"The month with the highet expense is {calendar.month_name[maxMonth]} with a total expense of RM{maxAmount}.")
-                    print(f"The month with the lowest expense is {calendar.month_name[minMonth]} with a total expense of RM{minAmount}.")
+                    print(f"The total expense for year {Year} is RM{total:.2f}.")
+                    print(f"The month with the highet expense is {calendar.month_name[maxMonth]} with a total expense of RM{maxAmount:.2f}.")
+                    print(f"The month with the lowest expense is {calendar.month_name[minMonth]} with a total expense of RM{minAmount:.2f}.")
 
                     graph = input("Do you want a graph for monthly expenses? (y / n)  ")
                     while graph not in ["y","Y","n"]:
@@ -754,7 +754,7 @@ def viewSummary():
                         ax.set_xticklabels([calendar.month_abbr[m] for m in range(1,13)])
                         plt.show()
                     print("*"*120)
-                    
+
             # Category
             case "4":
                 pass
