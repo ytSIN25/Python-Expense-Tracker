@@ -6,6 +6,7 @@ import math #For certain calculation purpose
 import os #Check is "ExpenseTrackerRecord.csv" exist and to force directory
 import subprocess #Install package purpose
 import sys #Check for module
+import calendar #For ploting labels
 from time import sleep #To stop program at some point for user to read prompted text
 
 # Force running directory to be this program
@@ -736,19 +737,23 @@ def viewSummary():
                     minMonth = min(monthlyExpense, key=monthlyExpense.get)
                     minAmount = monthlyExpense[minMonth]
                     print("*"*120)
-                    # fig, ax = plt.subplots(figsize=(3.5, 3))
+                    print(f"The total expense for year {Year} is RM{total}.")
+                    print(f"The month with the highet expense is {calendar.month_name[maxMonth]} with a total expense of RM{maxAmount}.")
+                    print(f"The month with the lowest expense is {calendar.month_name[minMonth]} with a total expense of RM{minAmount}.")
 
-                    # # `bar_labels` is a list of strings. `bar_values` is a list of numbers with the same length as `bar_labels`.
-                    # bars = ax.bar(monthlyExpense.keys, monthlyExpense.get, color='salmon')
-                    # ax.bar_label(bars, padding=3)
-
-                    # # Set axis labels, display in bold
-                    # ax.set_xlabel("X (unit)", fontweight="bold")
-                    # ax.set_ylabel("Y (unit)", fontweight="bold")
-
-                    # plt.show()
-
-                    print("")
+                    graph = input("Do you want a graph for monthly expenses? (y / n)  ")
+                    while graph not in ["y","Y","n"]:
+                        graph = input("Please enter y(yes) or n(no):  ")
+                    if graph == "y" or graph == "Y":
+                        fig, ax = plt.subplots(figsize=(7.5, 7.5))
+                        bars = ax.bar(monthlyExpense.keys(), monthlyExpense.values(), color='yellow')
+                        ax.bar_label(bars, padding=2)
+                        ax.set_xlabel("Month", fontweight="bold")
+                        ax.set_ylabel("Total Expense (RM)", fontweight="bold")
+                        ax.set_xticks([num for num in range(1,13)])
+                        ax.set_xticklabels([calendar.month_abbr[m] for m in range(1,13)])
+                        plt.show()
+                    print("*"*120)
                     
             # Category
             case "4":

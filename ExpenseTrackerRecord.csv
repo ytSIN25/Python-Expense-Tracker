@@ -9,7 +9,7 @@ ID,name,amount,category,date,notes
 10320250420,Water Bill,25.0,Utilities,2025-04-20,Monthly bill
 10420250502,Shopping,50.0,Entertainment / Shopping,2025-05-02,New t-shirt
 10520250505,Lunch with friends,18.0,Social Life,2025-05-05,Catch up lunch
-10120250508,Groceries,42.3,Food and Drinks,2025-05-08,Weekly grocery
+10120250512,Groceries,42.3,Food and Drinks,2025-05-12,Weekly grocery
 10220250610,Bus Pass,30.0,Commute,2025-06-10,Monthly bus pass
 10320250612,Internet Bill,45.0,Utilities,2025-06-12,Monthly payment
 10420250618,Concert Ticket,80.0,Entertainment / Shopping,2025-06-18,Live music
@@ -17,15 +17,15 @@ ID,name,amount,category,date,notes
 10120250706,Groceries,40.75,Food and Drinks,2025-07-06,Weekly grocery
 10220250715,Taxi,10.0,Commute,2025-07-15,Airport ride
 10320250720,Gas Bill,55.2,Utilities,2025-07-20,Monthly payment
-10420250805,Clothes,65.0,Entertainment / Shopping,2025-08-05,Summer collection
-10520250809,Coffee Meet,15.0,Social Life,2025-08-09,Meet friend for coffee
-10120250812,Groceries,48.1,Food and Drinks,2025-08-12,Weekly grocery
+10420251205,Clothes,65.0,Entertainment / Shopping,2025-12-05,Summer collection
+10520251209,Coffee Meet,15.0,Social Life,2025-12-09,Meet friend for coffee
+10120251212,Groceries,48.1,Food and Drinks,2025-12-12,Weekly grocery
 10220250901,Bus Ticket,3.5,Commute,2025-09-01,Campus trip
 10320250905,Electricity Bill,58.75,Utilities,2025-09-05,Monthly payment
 10420250910,Movie,12.0,Entertainment / Shopping,2025-09-10,Watched new movie
 10520250915,Lunch Out,20.0,Social Life,2025-09-15,Meeting friends
 10120251003,Groceries,44.0,Food and Drinks,2025-10-03,Weekly grocery
-10220251008,Train Ticket,5.0,Commute,2025-10-08,City travel
+10220251012,Train Ticket,5.0,Commute,2025-10-12,City travel
 10320251012,Water Bill,26.5,Utilities,2025-10-12,Monthly bill
 10420251018,Shopping,70.0,Entertainment / Shopping,2025-10-18,New shoes
 10520251022,Dinner,30.0,Social Life,2025-10-22,Family dinner
