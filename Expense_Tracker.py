@@ -1,4 +1,4 @@
-# Default packages
+# Default modules
 import random as rnd #Generate ID for expense
 import datetime as dt #Save expense date
 import re #Validate user input format
@@ -757,7 +757,23 @@ def viewSummary():
 
             # Category
             case "4":
-                pass
+                categoryExpense = df.groupby(df["category"])["amount"].sum().to_dict()
+                maxCategory = max(categoryExpense, key=categoryExpense.get)
+                maxAmount = categoryExpense[maxCategory]
+                minCategory = min(categoryExpense, key=categoryExpense.get)
+                minAmount = categoryExpense[minCategory]
+                print("*"*120)
+                print(f"The category with the highet expense is {maxCategory} with a total expense of RM{maxAmount:.2f}.")
+                print(f"The category with the lowest expense is {minCategory} with a total expense of RM{minAmount:.2f}.")
+
+                graph = input("Do you want a pie chart for the categories expenses? (y / n)  ")
+                while graph not in ["y","Y","n"]:
+                    graph = input("Please enter y(yes) or n(no):  ")
+                if graph == "y" or graph == "Y":
+                    plt.pie(categoryExpense.values(),labels=categoryExpense.keys(),autopct="%1.2f%%")
+                    plt.show()
+                print("*"*120)
+
 
 # Export data ✅
 def export():
