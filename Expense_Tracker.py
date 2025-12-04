@@ -13,11 +13,6 @@ from time import sleep #To stop program at some point for user to read prompted 
 scriptDirectory = os.path.dirname(os.path.abspath(__file__))
 os.chdir(scriptDirectory)
 
-#REMEMBER TO DELETE AFTER FINISH
-import pandas as pd
-import matplotlib.pyplot as plt
-import docx
-
 #Import when exist, install when not ✅
 def importInstall(packageName, importName=None):
     importName = importName or packageName
@@ -773,7 +768,6 @@ def viewSummary():
                     plt.pie(categoryExpense.values(),labels=categoryExpense.keys(),autopct="%1.2f%%")
                     plt.show()
                 print("*"*120)
-
 
 # Export data ✅
 def export():
