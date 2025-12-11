@@ -52,6 +52,7 @@ def createNewDF():
         "ID": [],
         "name": [],
         "amount": [],
+        "type": [],
         "category": [],
         "date": [],
         "notes": []
@@ -261,7 +262,7 @@ def addExpense():
         
     # Amount
     def amount():
-        amount = input("Enter the amount for the expense (r to redo / q to quit):  ")
+        amount = input("Enter the amount for the expense and add .00 for whole value (r to redo / q to quit):  ")
 
         # Validation pattern for ammount
         amountPattern = r"^\d+(\.\d{2})$"
@@ -276,6 +277,21 @@ def addExpense():
             amount = input("The input is not valid (Add .00 for whole value):  ")
 
         return float(amount)
+
+    # Type
+    def Type():
+        # Validate input
+        print("What is the type of the amount? (debit, credit, r to redo, q to quit)")
+        type = input(">  ")
+        while type not in ["debit", "credit", "r", "R", "q", "Q"]:
+            type = input("Please enter debit, credit, r or q only:  ")
+
+        if type == "r" or type == "R":
+            return "redo"
+        if type == "q" or type == "Q":
+            return
+        else:
+            return type
 
     # Category
     def category():
@@ -322,7 +338,7 @@ def addExpense():
     def date():
         # Validation Year
         Year = input("Enter the year of the expense : ")
-        while not re.match(r"^\d{4}$", Year):
+        while not re.match(r"^\d{4}$", Year) or not (1990 < Year < 2300):
             Year = input("Enter only 4 digit number: ")
         Year = int(Year)
 
@@ -332,29 +348,13 @@ def addExpense():
             Month = input("Please enter a valid month in number: ")
         Month = int(Month)
 
-        # Validation Day (includes validation of month and February of Leap Year)
-        Day = input("Enter the day of the expense in number: ")
-        # 31 days
-        if Month in [1,3,5,7,8,10,12]:
-            while not (re.match(r"^\d{1,2}$", Day) and 1 <= int(Day) <= 31):
-                Day = input("Please enter a valid day in number: ")
-
-        # 30 days
-        elif Month in [4,6,9,11]:
-            while not (re.match(r"^\d{1,2}$", Day) and 1 <= int(Day) <= 30):
-                Day = input("Please enter a valid day in number: ")
-
-        # Leap year February
-        elif Month == 2 and Year % 4 == 0:
-            while not (re.match(r"^\d{1,2}$", Day) and 1 <= int(Day) <= 29):
-                Day = input("Please enter a valid day in number: ")
-
-        # Non leap year February
-        elif Month == 2 and Year % 4 > 0:
-            while not (re.match(r"^\d{1,2}$", Day) and 1 <= int(Day) <= 28):
-                Day = input("Please enter a valid day in number: ")
+        # Validation Day
+        Day = input("Enter the date of the expense in number: ")
+        firstDay, maxDay = calendar.monthrange(Year,Month)
+        while not (1 <= int(Day) <= maxDay):
+            Day = input("The date is invalid. Type again:  ")
+        
         Day = int(Day)
-
 
         return pd.to_datetime(f"{Year}-{Month}-{Day}").normalize()
 
@@ -370,11 +370,19 @@ def addExpense():
         elif Amount is None:
             return
 
-        Category = category()
-        if Category == "redo":
+        expenseType = Type()
+        if expenseType == "redo":
             continue
-        elif Category is None:
+        elif expenseType is None:
             return
+        elif expenseType == "debit":
+            Category = category()
+            if Category == "redo":
+                continue
+            elif Category is None:
+                return
+        elif expenseType == "credit":
+            Category = ""
 
         Date = date()
 
@@ -388,6 +396,7 @@ def addExpense():
         df.loc[len(df)] = {"ID": id,
                         "name": Name,
                         "amount": Amount, 
+                        "type": expenseType,
                         "category": Category,
                         "date": Date,
                         "notes": notes}
@@ -441,19 +450,20 @@ def editExpense():
 
     # Displays menu
     print("*"*120)
-    print(f"The expense you would like to edit is: {df.at[targetIndex, 'name']} on {df.at[targetIndex, 'date']} with the amount {df.at[targetIndex, 'amount']} for {df.at[targetIndex, 'category']}. (Notes: {df.at[targetIndex, 'notes']})")
+    print(f"The expense you would like to edit is: {df.at[targetIndex, 'name']} on {df.at[targetIndex, 'date']} with the amount {df.at[targetIndex, 'amount']}({df.at[targetIndex, 'type']}) for {df.at[targetIndex, 'category']}. (Notes: {df.at[targetIndex, 'notes']})")
     print("""
     What is the data you would like to edit on this expense
     1. Name
     2. Date
     3. Amount
-    4. Category
-    5. Notes
+    4. Type
+    5. Category
+    6. Notes
     (q to quit)
           """)
     
     editTarget = input("> ")
-    while editTarget not in ["1","2","3","4","5","q","Q"]:
+    while editTarget not in ["1","2","3","4","5","6","q","Q"]:
         editTarget = input("The data is invalid. Try Again:  ")
 
     # Confimation
@@ -481,7 +491,7 @@ def editExpense():
         case "2":
             # Year Validation
             Year = input("Enter the year of the expense : ")
-            while not re.match(r"^\d{4}$", Year):
+            while not re.match(r"^\d{4}$", Year) or Year < 2000:
                 Year = input("Enter only 4 digit number: ")
             Year = int(Year)
 
@@ -492,19 +502,10 @@ def editExpense():
             Month = int(Month)
 
             # Day validation
-            Day = input("Enter the day of the expense in number: ")
-            if Month in [1,3,5,7,8,10,12]:
-                while not (re.match(r"^\d{1,2}$", Day) and 1 <= int(Day) <= 31):
-                    Day = input("Please enter a valid day in number: ")
-            elif Month in [4,6,9,11]:
-                while not (re.match(r"^\d{1,2}$", Day) and 1 <= int(Day) <= 30):
-                    Day = input("Please enter a valid day in number: ")
-            elif Month == 2 and Year % 4 == 0:
-                while not (re.match(r"^\d{1,2}$", Day) and 1 <= int(Day) <= 29):
-                    Day = input("Please enter a valid day in number: ")
-            elif Month == 2 and Year % 4 > 0:
-                while not (re.match(r"^\d{1,2}$", Day) and 1 <= int(Day) <= 28):
-                    Day = input("Please enter a valid day in number: ")
+            Day = input("Enter the date of the expense in number: ")
+            firstDay, maxDay = calendar.monthrange(Year,Month)
+            while not (1 <= int(Day) <= maxDay):
+                Day = input("The date is invalid. Type again:  ")
             Day = int(Day)
 
             # If confirm then overwrite
@@ -516,7 +517,7 @@ def editExpense():
 
         # Amount
         case "3":
-            amount = input("Enter the amount for the expense (q to quit):  ")
+            amount = input("Enter the amount for the expense add .00 for whole value (q to quit):  ")
             # Valid amount format
             amountPattern = r"^\d+(\.\d{2})$"
 
@@ -534,9 +535,58 @@ def editExpense():
 
             else: 
                 return
+            
+        # Type
+        case "4":
+            print("What is the type of the amount? (debit, credit, r to redo, q to quit)")
+            type = input(">  ")
+            while type not in ["debit", "credit","q", "Q"]:
+                type = input("Please enter debit, credit, r or q only:  ")
+
+            # Quit
+            if type == "q" or type == "Q":
+                return
+            
+            if confirm():
+                df.at[targetIndex, 'type'] = type
+                if type == "debit":
+                    # Menu
+                    print("Choose the category of the expense: ")
+                    print("1. Food and Drinks")
+                    print("2. Commute")
+                    print("3. Utilities")
+                    print("4. Entertainment / Shopping")
+                    print("5. Social Life")
+                    print("(r to redo / q to quit)")
+
+                    # Valid Options only
+                    validCategory = ["1","2","3","4","5","q","Q"]
+                    category = input("> ")
+
+                    # Validation
+                    while category not in validCategory:
+                        category = input("The category is not valid. Try Again: ")
+                    match category:
+                        case "1":
+                            category = "Food and Drinks"
+                        case "2":
+                            category = "Commute"
+                        case "3":
+                            category = "Utilities"
+                        case "4":
+                            category = "Entertainment / Shopping"
+                        case "5":
+                            category = "Social Life"
+                    df.at[targetIndex, 'category'] = category
+                    
+                else: 
+                    df.at[targetIndex, 'category'] = ""
+                    df.at[targetIndex, 'ID'] = df.at[targetIndex, 'ID'][1:]
+            else:
+                return
 
         # Category
-        case "4":
+        case "5":
             # Displays Menu
             print("""Choose the category of the expense:
     1. Food and Drinks
@@ -573,7 +623,7 @@ def editExpense():
                 return
 
         # Notes
-        case "5":
+        case "6":
             notes = input("Enter any extra notes. (If no, press Enter):  ")
 
             # If confirm overwrite
@@ -588,7 +638,7 @@ def editExpense():
         
     sleep(0.5)
     # Print out edited result
-    print(f"The expense ({df.at[targetIndex, 'ID']}) is now: {df.at[targetIndex, 'name']} on {df.at[targetIndex, 'date']} with the amount {df.at[targetIndex, 'amount']} for {df.at[targetIndex, 'category']}. (Notes: {df.at[targetIndex, 'notes']})")
+    print(f"The expense ({df.at[targetIndex, 'ID']}) is now: {df.at[targetIndex, 'name']} on {df.at[targetIndex, 'date']} with the amount {df.at[targetIndex, 'amount']}({df.at[targetIndex, 'type']}) for {df.at[targetIndex, 'category']}. (Notes: {df.at[targetIndex, 'notes']})")
     updateCSV()
 
 # Delete expense 
@@ -866,8 +916,10 @@ def viewSummary():
                     print("There is no data on that day.")
                 else:
                     # Displays Result
-                    total = sum(result["amount"].tolist())
-                    print(f"The total expense on {searchDate} is RM{total:.2f}.")
+                    totalType = df.groupby(df["type"])["amount"].sum().to_dict()
+                    totalDebit = totalType['debit']
+                    totalCredit = totalType['credit']
+                    print(f"The total debit in {searchDate} is RM{totalDebit} and the total credit is RM{totalCredit}. The nett flow is RM{totalCredit-totalDebit}")
 
             # Month
             case "2":
@@ -890,29 +942,42 @@ def viewSummary():
                     print("There is no data in the month.")
 
                 else:
-                    # Calculates sum
-                    total = sum(result["amount"].tolist())
+                    monthlyType = result.groupby("type")["amount"].sum().to_dict()
+                    totalDebit = monthlyType.get("debit", 0.0)
+                    totalCredit = monthlyType.get("credit", 0.0)
 
-                    # Different mean for months
-                    if Month in [1,3,5,7,8,10,12]:
-                        mean = total/31
-                    elif Month in [4,6,9,11]:
-                        mean = total/30
-                    elif Month == 2 and Year % 4 == 0:
-                        mean = total/29
-                    elif Month == 2 and Year % 4 > 0:
-                        mean = total/28
+                    print(f"Total debit for {Month}/{Year}: RM{totalDebit:.2f}")
+                    print(f"Total credit for {Month}/{Year}: RM{totalCredit:.2f}")
+                    print(f"Net flow: RM{(totalCredit - totalDebit):.2f}")
 
-                    result = result.sort_values("amount")
-                    highestDay = result.iloc[-1]
-                    lowestDay = result.iloc[0]
+                    debits = result[result["type"] == "debit"]
+                    if debits.empty:
+                        # No debit
+                        total = 0.0
+                        mean = 0.0
+                        print("There are no debit (expense) in this month.")
 
-                    # Displays result
-                    print(f"The total expense on {Month}/{Year} is RM{total:.2f}.")
-                    print(f"The average daily expense of this month is RM{mean:.2f}.")
-                    print(f"The highest expense in the month is {highestDay['name']} on {highestDay['date']} with an amount of RM{highestDay['amount']:.2f}.")
-                    print(f"The lowest expense in the month is {lowestDay['name']} on {lowestDay['date']} with an amount of RM{lowestDay['amount']:.2f}.")
-                    
+                    else:
+                        total = debits["amount"].sum()
+
+                        if Month in [1,3,5,7,8,10,12]:
+                            mean = total / 31
+                        elif Month in [4,6,9,11]:
+                            mean = total / 30
+                        elif Month == 2 and Year % 4 == 0:
+                            mean = total / 29
+                        else:
+                            mean = total / 28
+
+                        debits = debits.sort_values("amount")
+                        highestDay = debits.iloc[-1]
+                        lowestDay = debits.iloc[0]
+
+                        print(f"The total expense on {Month}/{Year} is RM{total:.2f}.")
+                        print(f"The average daily expense of this month is RM{mean:.2f}.")
+                        print(f"The highest expense in the month is {highestDay['name']} on {highestDay['date']} with an amount of RM{highestDay['amount']:.2f}.")
+                        print(f"The lowest expense in the month is {lowestDay['name']} on {lowestDay['date']} with an amount of RM{lowestDay['amount']:.2f}.")
+
             # Year
             case "3":
                 # Validates year
@@ -928,52 +993,85 @@ def viewSummary():
                     print("There is no data for the year.")
 
                 else: 
-                    # Calculates total
-                    total = sum(result["amount"].tolist())
+                    yearType = result.groupby("type")["amount"].sum().to_dict()
 
-                    # Mean for year and leap year
-                    if Year % 4 == 0:
-                        mean = total / 366
-                    elif Year % 4 > 0:
-                        mean = total / 365
+                    totalDebit = yearType.get("debit", 0.0)
+                    totalCredit = yearType.get("credit", 0.0)
+                    netFlow = totalCredit - totalDebit
 
-                    monthlyExpense = result.groupby(result["date"].dt.month)["amount"].sum().to_dict()
-                    maxMonth = max(monthlyExpense, key=monthlyExpense.get)
-                    maxAmount = monthlyExpense[maxMonth]
-                    minMonth = min(monthlyExpense, key=monthlyExpense.get)
-                    minAmount = monthlyExpense[minMonth]
+                    print(f"Total debit   for {Year}: RM{totalDebit:.2f}")
+                    print(f"Total credit  for {Year}: RM{totalCredit:.2f}")
+                    print(f"Net flow: RM{netFlow:.2f}")
+                    print("*" * 60)
 
-                    # Displays Result
-                    print("*"*120)
-                    print(f"The total expense for year {Year} is RM{total:.2f}.")
-                    print(f"The month with the highet expense is {calendar.month_name[maxMonth]} with a total expense of RM{maxAmount:.2f}.")
-                    print(f"The month with the lowest expense is {calendar.month_name[minMonth]} with a total expense of RM{minAmount:.2f}.")
+                    debits = result[result["type"] == "debit"]
 
-                    # Ask whether need graph
+                    if debits.empty:
+                        # No debits
+                        total = 0.0
+                        mean = 0.0
+                        print("There are no debit (expense) entries for this year.")
+                        print(f"The total expense for year {Year} is RM{total:.2f}.")
+                        print(f"The average daily expense of this year is RM{mean:.2f}.")
+
+                    else:
+                        # Total year debit
+                        total = debits["amount"].sum()
+
+                        # Mean for year
+                        if Year % 4 == 0:
+                            mean = total / 366
+                        else:
+                            mean = total / 365
+
+                        # Monthly expense
+                        monthlyExpense = (
+                            debits.groupby(debits["date"].dt.month)["amount"].sum().to_dict()
+                        )
+
+                        # Highest and lowest month
+                        maxMonth = max(monthlyExpense, key=monthlyExpense.get)
+                        maxAmount = monthlyExpense[maxMonth]
+                        minMonth = min(monthlyExpense, key=monthlyExpense.get)
+                        minAmount = monthlyExpense[minMonth]
+
+                        print(f"The total expense for year {Year} is RM{total:.2f}.")
+                        print(f"The average daily expense of this year is RM{mean:.2f}.")
+                        print(
+                            f"The month with the highest expense is {calendar.month_name[maxMonth]} "
+                            f"with a total expense of RM{maxAmount:.2f}."
+                        )
+                        print(
+                            f"The month with the lowest expense is {calendar.month_name[minMonth]} "
+                            f"with a total expense of RM{minAmount:.2f}."
+                        )
+
+                    # Graph
                     graph = input("Do you want a graph for monthly expenses? (y / n)  ")
                     while graph not in ["y","Y","n"]:
                         graph = input("Please enter y(yes) or n(no):  ")
 
-                    if graph == "y" or graph == "Y":
-                        # Plot graph
+                    if graph in ["y", "Y"]:
                         fig, ax = plt.subplots(figsize=(7.5, 7.5))
-                        bars = ax.bar(monthlyExpense.keys(), monthlyExpense.values(), color='yellow')
+                        bars = ax.bar(monthlyExpense.keys(), monthlyExpense.values())
                         ax.bar_label(bars, padding=2)
                         ax.set_xlabel("Month", fontweight="bold")
-                        ax.set_ylabel("Total Expense (RM)", fontweight="bold")
-                        
-                        # Displays all month even if no result
-                        ax.set_xticks([num for num in range(1,13)])
-                        ax.set_xticklabels([calendar.month_abbr[m] for m in range(1,13)])
+                        ax.set_ylabel("Total Debit Expense (RM)", fontweight="bold")
 
-                        # Displays Plot
+                        ax.set_xticks([n for n in range(1, 13)])
+                        ax.set_xticklabels([calendar.month_abbr[m] for m in range(1, 13)])
                         plt.show()
-                    print("*"*120)
+
+                    print("*" * 120)
+
 
             # Category
             case "4":
+                # Takes only debit
+                debit = df[df["type"] == "debit"]
+
                 # Groups by category first
-                categoryExpense = df.groupby(df["category"])["amount"].sum().to_dict()
+                categoryExpense = debit.groupby("category")["amount"].sum().to_dict()
 
                 maxCategory = max(categoryExpense, key=categoryExpense.get)
                 maxAmount = categoryExpense[maxCategory]

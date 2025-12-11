@@ -1,33 +1,3 @@
-ID,name,amount,category,date,notes
-10120250123,Groceries,45.5,Food and Drinks,2025-01-23,Bought fruits and veggies
-10220250205,Bus Ticket,3.0,Commute,2025-02-05,Trip to campus
-10320250210,Electricity Bill,60.75,Utilities,2025-02-10,Monthly bill
-10420250315,Movie Night,15.0,Entertainment / Shopping,2025-03-15,Watched latest movie
-10520250401,Coffee with friends,12.5,Social Life,2025-04-01,Weekend meetup
-10120250407,Groceries,38.2,Food and Drinks,2025-04-07,Weekly grocery
-10220250412,Train Ticket,4.5,Commute,2025-04-12,Trip to downtown
-10320250420,Water Bill,25.0,Utilities,2025-04-20,Monthly bill
-10420250502,Shopping,50.0,Entertainment / Shopping,2025-05-02,New t-shirt
-10520250505,Lunch with friends,18.0,Social Life,2025-05-05,Catch up lunch
-10120250512,Groceries,42.3,Food and Drinks,2025-05-12,Weekly grocery
-10220250610,Bus Pass,30.0,Commute,2025-06-10,Monthly bus pass
-10320250612,Internet Bill,45.0,Utilities,2025-06-12,Monthly payment
-10420250618,Concert Ticket,80.0,Entertainment / Shopping,2025-06-18,Live music
-10520250703,Dinner Party,25.5,Social Life,2025-07-03,Birthday dinner
-10120250706,Groceries,40.75,Food and Drinks,2025-07-06,Weekly grocery
-10220250715,Taxi,10.0,Commute,2025-07-15,Airport ride
-10320250720,Gas Bill,55.2,Utilities,2025-07-20,Monthly payment
-10220250901,Bus Ticket,3.5,Commute,2025-09-01,Campus trip
-10320250905,Electricity Bill,58.75,Utilities,2025-09-05,Monthly payment
-10420250910,Movie,12.0,Entertainment / Shopping,2025-09-10,Watched new movie
-10520250915,Lunch Out,20.0,Social Life,2025-09-15,Meeting friends
-10120251003,Groceries,44.0,Food and Drinks,2025-10-03,Weekly grocery
-10220251012,Train Ticket,5.0,Commute,2025-10-12,City travel
-10320251012,Water Bill,26.5,Utilities,2025-10-12,Monthly bill
-10420251018,Shopping,70.0,Entertainment / Shopping,2025-10-18,New shoes
-10520251022,Dinner,30.0,Social Life,2025-10-22,Family dinner
-511202523,Eat Lunch,25.0,Social Life,2025-11-20,hehe
-111302547,Have Dinner,25.0,Food and Drinks,2025-11-30,nice dinner
-10420251205,Clothes,65.0,Entertainment / Shopping,2025-12-05,Summer collection
-10520251209,Coffee Meet,15.0,Social Life,2025-12-09,Meet friend for coffee
-10120251212,Groceries,48.1,Food and Drinks,2025-12-12,Weekly grocery
+ID,name,amount,type,category,date,notes
+1211000071,Salary,10000.0,credit,,2025-12-01,
+112122531,Eat Lunch,25.0,debit,Food and Drinks,2025-12-12,
