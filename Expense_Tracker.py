@@ -338,7 +338,7 @@ def addExpense():
     def date():
         # Validation Year
         Year = input("Enter the year of the expense : ")
-        while not re.match(r"^\d{4}$", Year) or not (1990 < Year < 2300):
+        while not re.match(r"^\d{4}$", Year) or not (1990 < int(Year) < 2300):
             Year = input("Enter only 4 digit number: ")
         Year = int(Year)
 
