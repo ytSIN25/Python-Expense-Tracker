@@ -1,7 +1,6 @@
 # Python Expense Tracker Program
 
 This is a lab work project for Python. The program provides functions such as adding, editing, and summarizing expense records. This program works best on Windows.
-**There is also a YouTube video showcasing this program: [link](link)**
 
 ---
 
