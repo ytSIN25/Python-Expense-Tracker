@@ -906,6 +906,9 @@ def viewSummary():
                     except ValueError:
                         print("Invalid date. Try again in YYYY-MM-DD")
 
+                if searchDate.lower() == "q":
+                        continue
+
                 # Split into three Variable
                 year, month, day = map(int, searchDate.split("-"))
                 searchDate = pd.to_datetime(f"{year}-{month}-{day}").normalize()

@@ -1,21 +1,21 @@
 ID,name,amount,type,category,date,notes
-113012081,Chicken Rice,6.50,debit,Food and Drinks,2025-01-12,Lunch
-223152345,Grab Ride,13.00,debit,Commute,2025-03-15,To work
-341042190,Electric Bill,95.00,debit,Utilities,2025-04-10,Monthly bill
-452052210,Shopee Purchase,23.50,debit,Entertainment / Shopping,2025-05-20,Phone case
-512082399,Cafe Hangout,18.00,debit,Social Life,2025-02-08,Met with friends
-012013876,Salary,2500.00,credit,,2025-01-03,
-012153812,Bonus,300.00,credit,,2025-01-15,Quarterly bonus
-131142521,McD Breakfast,10.90,debit,Food and Drinks,2025-04-14,
-251222567,Bus Card Reload,20.00,debit,Commute,2025-12-02,
-332063212,Water Bill,32.00,debit,Utilities,2025-06-03,
-441182301,Cinema Ticket,17.00,debit,Entertainment / Shopping,2025-08-11,Movie night
-523042478,Karaoke,45.00,debit,Social Life,2025-04-23,Group outing
-011093754,Refund,12.00,credit,,2025-09-01,Item returned
-114112245,Nasi Lemak,5.00,debit,Food and Drinks,2025-11-12,Breakfast
-243092412,MRT Ride,4.20,debit,Commute,2025-09-03,
-311072198,Gas Bill,65.00,debit,Utilities,2025-07-01,
-422022366,T-Shirt,29.90,debit,Entertainment / Shopping,2025-02-20,
-501152455,Dinner,22.00,debit,Social Life,2025-11-15,
-012102809,Reimbursement,45.00,credit,,2025-10-02,Work claim
-134122684,Burger,12.50,debit,Food and Drinks,2025-12-04,Snack
+12013876,Salary,2500.0,credit,,2025-01-03,
+113012081,Chicken Rice,6.5,debit,Food and Drinks,2025-01-12,Lunch
+12153812,Bonus,300.0,credit,,2025-01-15,Quarterly bonus
+512082399,Cafe Hangout,18.0,debit,Social Life,2025-02-08,Met with friends
+422022366,T-Shirt,29.9,debit,Entertainment / Shopping,2025-02-20,
+223152345,Grab Ride,13.0,debit,Commute,2025-03-15,To work
+341042190,Electric Bill,95.0,debit,Utilities,2025-04-10,Monthly bill
+131142521,McD Breakfast,10.9,debit,Food and Drinks,2025-04-14,
+523042478,Karaoke,45.0,debit,Social Life,2025-04-23,Group outing
+452052210,Shopee Purchase,23.5,debit,Entertainment / Shopping,2025-05-20,Phone case
+332063212,Water Bill,32.0,debit,Utilities,2025-06-03,
+311072198,Gas Bill,65.0,debit,Utilities,2025-07-01,
+441182301,Cinema Ticket,17.0,debit,Entertainment / Shopping,2025-08-11,Movie night
+11093754,Refund,12.0,credit,,2025-09-01,Item returned
+243092412,MRT Ride,4.2,debit,Commute,2025-09-03,
+12102809,Reimbursement,45.0,credit,,2025-10-02,Work claim
+114112245,Nasi Lemak,5.0,debit,Food and Drinks,2025-11-12,Breakfast
+501152455,Dinner,22.0,debit,Social Life,2025-11-15,
+251222567,Bus Card Reload,20.0,debit,Commute,2025-12-02,
+134122684,Burger,12.5,debit,Food and Drinks,2025-12-04,Snack
