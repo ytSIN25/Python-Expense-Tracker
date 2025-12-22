@@ -49,6 +49,16 @@ Both the amount range and date range features also support searching for a **spe
 
 ---
 
+## Summary
+
+You can also look for summary in this program. There are four types of summary available, which is:
+- Daily / Weekly
+- Monthly
+- Yearly 
+- Category
+
+---
+
 ## Export
 
 One of the key features of this program is the **export function**, which allows you to export your data as:

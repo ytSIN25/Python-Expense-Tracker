@@ -870,7 +870,7 @@ def viewSummary():
         # Displays Menu
         print("""
     Select the summary you would like to see:
-    1. Daily
+    1. Daily / Weekly
     2. Monthly
     3. Yearly
     4. Category
@@ -887,7 +887,7 @@ def viewSummary():
             break
 
         match selectSummary:
-            # Day
+            # Day / Week
             case "1":
                 # Validates Input
                 while True:
@@ -919,10 +919,25 @@ def viewSummary():
                     print("There is no data on that day.")
                 else:
                     # Displays Result
-                    totalType = df.groupby(df["type"])["amount"].sum().to_dict()
+                    totalType = result.groupby(df["type"])["amount"].sum().to_dict()
                     totalDebit = totalType['debit']
                     totalCredit = totalType['credit']
                     print(f"The total debit in {searchDate} is RM{totalDebit} and the total credit is RM{totalCredit}. The nett flow is RM{totalCredit-totalDebit}")
+                
+                # Find week start and end
+                weekStart = searchDate - dt.timedelta(days=searchDate.weekday())
+                weekEnd = weekStart + dt.timedelta(days=6)
+
+                weekResult = df[(df["date"] >= weekStart) & (df["date"] <= weekEnd)] 
+                if weekResult.empty:
+                    # No Result
+                    print("The is no data for the whole week")
+                else:
+                    # Display result
+                    totalWeekType = weekResult.groupby(df["type"])["amount"].sum().to_dict()
+                    totalWeekDebit = totalWeekType['debit']
+                    totalWeekCredit = totalWeekType['credit']
+                    print(f"The total debit in the week is RM{totalWeekDebit} and the total credit is RM{totalWeekCredit}. The nett flow is RM{totalWeekCredit-totalWeekDebit}.")
 
             # Month
             case "2":
