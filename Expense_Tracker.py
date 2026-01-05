@@ -901,7 +901,7 @@ def viewSummary():
                     
                     try:
                         year, month, day = map(int, searchDate.split("-"))
-                        dt.date(year, month, day)
+                        searchDate = pd.to_datetime(f"{year}-{month}-{day}").normalize()
                         break
                     except ValueError:
                         print("Invalid date. Try again in YYYY-MM-DD")
