@@ -6,7 +6,7 @@ import math #For certain calculation purpose
 import os #Check is "ExpenseTrackerRecord.csv" exist and to force directory
 import subprocess #Install package purpose
 import sys #Check for module
-import calendar #For ploting labels
+import calendar #For plotting labels
 from time import sleep #To stop program at some point for user to read prompted text
 
 # Force running directory to be this program
@@ -81,7 +81,7 @@ def initialize():
         # Try to read the csv
         df = pd.read_csv("ExpenseTrackerRecord.csv")
 
-        # If frame is setted up but data is empty
+        # If frame is set up but data is empty
         if df.empty:
             print("The original data is empty, creating new dataframe...")
             sleep(1.5)
@@ -113,7 +113,7 @@ def initialize():
     # Pandas reports error if the csv is totally blank
     except pd.errors.EmptyDataError:
         # Informs user and puts in template
-        print("The CSV is totaly blank. Creating new template...")
+        print("The CSV is totally blank. Creating new template...")
         sleep(1)
         df = createNewDF()
         updateCSV()
@@ -179,7 +179,7 @@ def displayMenu():
 # Display expense list 
 def displayExpense():
     """Displays all expense in three forms
-       All past shows whole datas
+       All past shows whole data
        Latest 5 shows the newest 5 data
        All expense in month display all data in specified month
     """
@@ -264,7 +264,7 @@ def addExpense():
     def amount():
         amount = input("Enter the amount for the expense and add .00 for whole value (r to redo / q to quit):  ")
 
-        # Validation pattern for ammount
+        # Validation pattern for amount
         amountPattern = r"^\d+(\.\d{2})$"
         # Redo
         if amount == "r" or amount == "R":
@@ -466,7 +466,7 @@ def editExpense():
     while editTarget not in ["1","2","3","4","5","6","q","Q"]:
         editTarget = input("The data is invalid. Try Again:  ")
 
-    # Confimation
+    # confirmation
     def confirm():
         confirm = input("Are you sure? (Y / n)  ")
         while confirm not in ["Y","n"]:
@@ -903,15 +903,11 @@ def viewSummary():
                         year, month, day = map(int, searchDate.split("-"))
                         searchDate = pd.to_datetime(f"{year}-{month}-{day}").normalize()
                         break
-                    except ValueError:
+                    except:
                         print("Invalid date. Try again in YYYY-MM-DD")
 
-                if searchDate.lower() == "q":
+                if searchDate == "q" or searchDate == "Q":
                         continue
-
-                # Split into three Variable
-                year, month, day = map(int, searchDate.split("-"))
-                searchDate = pd.to_datetime(f"{year}-{month}-{day}").normalize()
 
                 result = df[df["date"] == searchDate]
                 if result.empty:
@@ -922,7 +918,7 @@ def viewSummary():
                     totalType = result.groupby(df["type"])["amount"].sum().to_dict()
                     totalDebit = totalType['debit']
                     totalCredit = totalType['credit']
-                    print(f"The total debit in {searchDate} is RM{totalDebit} and the total credit is RM{totalCredit}. The nett flow is RM{totalCredit-totalDebit}")
+                    print(f"The total debit in {searchDate} is RM{totalDebit} and the total credit is RM{totalCredit}. The net flow is RM{totalCredit-totalDebit}")
                 
                 # Find week start and end
                 weekStart = searchDate - dt.timedelta(days=searchDate.weekday())
@@ -937,7 +933,7 @@ def viewSummary():
                     totalWeekType = weekResult.groupby(df["type"])["amount"].sum().to_dict()
                     totalWeekDebit = totalWeekType['debit']
                     totalWeekCredit = totalWeekType['credit']
-                    print(f"The total debit in the week is RM{totalWeekDebit} and the total credit is RM{totalWeekCredit}. The nett flow is RM{totalWeekCredit-totalWeekDebit}.")
+                    print(f"The total debit in the week is RM{totalWeekDebit} and the total credit is RM{totalWeekCredit}. The net flow is RM{totalWeekCredit-totalWeekDebit}.")
 
             # Month
             case "2":
@@ -1098,7 +1094,7 @@ def viewSummary():
 
                 # Displays highest and lowest
                 print("*"*120)
-                print(f"The category with the highet expense is {maxCategory} with a total expense of RM{maxAmount:.2f}.")
+                print(f"The category with the highest expense is {maxCategory} with a total expense of RM{maxAmount:.2f}.")
                 print(f"The category with the lowest expense is {minCategory} with a total expense of RM{minAmount:.2f}.")
 
                 # Ask whether needs graph
@@ -1252,7 +1248,7 @@ def help():
         match userInput:
             case '1':
                 print("""
-View Expense function is to view datas.
+View Expense function is to view data.
 1. All Past Expense: Displays all the expenses in data
 2. Latest 5 Expense: Displays the most latest inputted 5 data
 3. All Expenses by Month: Displays all expense in the month chosen
@@ -1275,7 +1271,7 @@ If the amount, date or category is changed, the ID will also be updated.
                 print("""
 Delete Expense function is to delete data recorded (ofc).
 Same as edit, an ID is needed.
-Before deleting, a comfirmation question will be asked.
+Before deleting, a confirmation question will be asked.
 """)
             case '5':
                 print("""
@@ -1320,7 +1316,7 @@ def loadCSV():
 #update df to csv 
 def updateCSV():
     """Not a direct function
-       Used to update datas into the csv for storage purpose
+       Used to update data into the csv for storage purpose
     """
 
     df.sort_values(by="date", inplace = True)
@@ -1331,7 +1327,7 @@ def updateCSV():
 # The Main Part that is actually running
 def main():
     """The main function of this program
-       Retrives and runs functions above according to user selection
+       retrieves and runs functions above according to user selection
        Quitting here will either close the window or go back to terminal
     """
 
@@ -1391,7 +1387,7 @@ def main():
                 print("The CSV from last time has been imported!")
                 sleep(2)
 
-            # Clears everthing in CSV
+            # Clears everything in CSV
             case '8':
                 confirm = input("Are you sure? (Y / n)  ")
                 while confirm not in ["Y","n"]:

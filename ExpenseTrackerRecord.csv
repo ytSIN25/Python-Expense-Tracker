@@ -1,5 +1,4 @@
 ID,name,amount,type,category,date,notes
-12013876,Salary,2500.0,credit,,2025-01-03,
 113012081,Chicken Rice,6.5,debit,Food and Drinks,2025-01-12,Lunch
 12153812,Bonus,300.0,credit,,2025-01-15,Quarterly bonus
 512082399,Cafe Hangout,18.0,debit,Social Life,2025-02-08,Met with friends
@@ -19,4 +18,3 @@ ID,name,amount,type,category,date,notes
 501152455,Dinner,22.0,debit,Social Life,2025-11-15,
 251222567,Bus Card Reload,20.0,debit,Commute,2025-12-02,
 134122684,Burger,12.5,debit,Food and Drinks,2025-12-04,Snack
-112311239,12,12.0,debit,Food and Drinks,2027-12-31,dtedrt drt drt890890;;
